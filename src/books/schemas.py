@@ -1,9 +1,10 @@
 from pydantic import BaseModel
 import uuid
+from src.reviews.schemas import ReviewModel
+from typing import List
 from datetime import date, datetime
 
 
-# 1. Renamed this from Book to BookResponseModel to prevent naming conflicts
 class BookResponseModel(BaseModel):
     uid: uuid.UUID
     title: str
@@ -15,8 +16,11 @@ class BookResponseModel(BaseModel):
     created_at: datetime
     updated_at: datetime
 
-    # This allows Pydantic to read data seamlessly from SQLModel database objects
     model_config = {"from_attributes": True}
+
+
+class BookDetailModel(BookResponseModel):
+    reviews: List[ReviewModel]
 
 
 class BookCreateModel(BaseModel):
